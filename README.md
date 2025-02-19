@@ -1,4 +1,4 @@
-# # buzzline-06-kersha
+# # buzzline-06-Priyanka
 Simulated Online Sales &amp; E-commerce Streaming Data Project
 
 📈 **Author:** Priyanka 
@@ -44,7 +44,8 @@ pip install pandas matplotlib seaborn
 ### **1️. Start the Sales Producer**
 Run the producer to continuously generate sales transactions and insert them into SQLite:
 ```powershell
-python python_producers/sales_producer.py
+
+py -m producers.sales_producer
 ```
 This script:
 - Generates a **new sales transaction every 2 seconds**.
@@ -53,7 +54,7 @@ This script:
 ### **2️. Start the Sales Consumer**
 Run the consumer to fetch transactions and generate visualizations:
 ```powershell
-python python_consumers/sales_consumer.py
+py -m consumers.sales_consumer.py
 ```
 This script:
 - Reads sales transactions from **SQLite**.
