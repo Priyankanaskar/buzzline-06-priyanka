@@ -1,10 +1,9 @@
 # # buzzline-06-Priyanka
-Simulated Online Sales &amp; E-commerce Streaming Data Project
+ Streaming Data Project
 
-📈 **Author:** Priyanka 
+📈 **Author:** Priyanka Naskar 
 📅 **Date:** February 18, 2025  
-📊 **License:** MIT License
-
+# Git- https://github.com/Priyankanaskar/buzzline-06-priyanka
 #  Real-time Sales Analytics with Python & SQLite
 
 ## 📂 Repository Overview
@@ -71,7 +70,7 @@ Once the consumer script runs successfully, it will display **three charts**:
 2. **Bar Chart:** Number of transactions per category
 3. **Pie Chart:** Proportion of sales across categories
 
-![alt text](<Screenshot 2025-02-17 112106 sales triple.png>)
+![alt text]("png">)
 
 
 

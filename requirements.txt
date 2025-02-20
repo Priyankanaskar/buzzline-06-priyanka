@@ -109,7 +109,7 @@ SQLAlchemy
 
 # psycopg2 - PostgreSQL database adapter for Python
 # Uncomment the line below to install psycopg2.
- psycopg2
+psycopg2
 
 # PyMySQL - MySQL client library
 # Uncomment the line below to install PyMySQL.
