@@ -5,7 +5,7 @@
 📅 **Date:** February 18, 2025  
 ## Git- https://github.com/Priyankanaskar/buzzline-06-priyanka
 
-###  Real-time Sales Analytics with Python & SQLite
+##  Real-time Sales Analytics with Python & SQLite
 
 ## 🌟 Repository Overview
 This project is a real-time data streaming system leveraging Apache Kafka. It includes:
@@ -30,7 +30,7 @@ This project is a real-time data streaming system leveraging Apache Kafka. It in
 
 ### 🔧 Installation
 
-### Prerequisites 
+## Prerequisites 
 
 Ensure you have the following installed:
 
@@ -44,7 +44,7 @@ Ensure you have the following installed:
 
 ## Steps to Install Kafka on WSL
 
-### Update and install dependencies: 
+## Update and install dependencies: 
 
 sudo apt update && sudo apt install openjdk-11-jdk wget
 
@@ -62,11 +62,11 @@ bin/kafka-server-start.sh config/server.properties &
 ```
 
 ## ▶️ Running the Project
-### Start Kafka Producer:
+## Start Kafka Producer:
 ```
 py -m kafka_producer.py
 ```
-### Start Kafka Consumer with Charts:
+## Start Kafka Consumer with Charts:
 ```
 python kafka_consumer.py
 ```
@@ -75,7 +75,7 @@ This script:
 - Generates a **new sales transaction every 20 seconds**.
 - Stores transactions in the **sales_data.sqlite** database.
 
-### 📊 Real-Time Visualizations
+## 📊 Real-Time Visualizations
 
 This project generates six interactive real-time charts:
 
@@ -91,7 +91,7 @@ This project generates six interactive real-time charts:
 
 📉 Area Chart: Price Variation by Product Category - Displays how prices change across categories.
 
-🛠 Future Enhancements
+## 🛠 Future Enhancements
 
 🔐 Implement authentication for email APIs.
 
@@ -99,13 +99,13 @@ This project generates six interactive real-time charts:
 
 🎨 Enhance chart visualizations with more styles and filters.
 
-🤝 Contributing
+## 🤝 Contributing
 
 Contributions are welcome! Feel free to fork the repo and submit a pull request.
 
-📜 License
+## 📜 License
 
 This project is licensed under the MIT License.
 
-📷 Screenshots: 
+## 📷 Screenshots: 
 ![alt text](screenshot.png)
