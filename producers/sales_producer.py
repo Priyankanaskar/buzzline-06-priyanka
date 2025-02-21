@@ -1,20 +1,19 @@
+# sales_producer.py
 import sqlite3
-import random
+import requests
 import time
 from datetime import datetime
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from matplotlib.animation import FuncAnimation
 
-# Define SQLite database path
 DB_PATH = "sales_data.sqlite"
+API_URL = "https://api.sampleapis.com/fakestore/products"  
 
-# Define product categories and payment methods
-CATEGORIES = ["Electronics", "Clothing", "Home & Kitchen", "Toys", "Sports"]
-PAYMENT_METHODS = ["Credit Card", "PayPal", "Cryptocurrency"]
-
-# Connect to SQLite
 conn = sqlite3.connect(DB_PATH)
 cursor = conn.cursor()
 
-# Ensure the sales table exists
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS sales_transactions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -26,26 +25,54 @@ cursor.execute('''
 ''')
 conn.commit()
 
-# Function to generate and insert a fake transaction
-def generate_and_store_transaction():
-    transaction = {
-        "timestamp": datetime.utcnow().isoformat(),
-        "product_category": random.choice(CATEGORIES),
-        "payment_method": random.choice(PAYMENT_METHODS),
-        "price": round(random.uniform(5.0, 500.0), 2)
-    }
+def fetch_live_sales():
+    try:
+        response = requests.get(API_URL)
+        if response.status_code == 200:
+            sales_data = response.json()
+            for sale in sales_data:
+                timestamp = datetime.utcnow().isoformat()
+                product_category = sale.get("category", "Unknown")
+                payment_method = "Credit Card"  # Default, modify as needed
+                price = float(sale.get("price", 0))
 
-    # Insert transaction into SQLite
-    cursor.execute('''
-        INSERT INTO sales_transactions (timestamp, product_category, payment_method, price)
-        VALUES (?, ?, ?, ?)
-    ''', (transaction["timestamp"], transaction["product_category"], transaction["payment_method"], transaction["price"]))
+                cursor.execute('''
+                    INSERT INTO sales_transactions (timestamp, product_category, payment_method, price)
+                    VALUES (?, ?, ?, ?)
+                ''', (timestamp, product_category, payment_method, price))
+                conn.commit()
+                print(f"🛍️ New Sale Inserted: {timestamp}, {product_category}, {payment_method}, {price}")
+    except Exception as e:
+        print(f"Error fetching sales data: {e}")
+
+def animate(i):
+    df = pd.read_sql_query("SELECT * FROM sales_transactions", conn)
+    if df.empty:
+        print("⚠️ Not enough data for visualization.")
+        return
+
+    plt.clf()
+    fig, axes = plt.subplots(1, 3, figsize=(15, 6))
+    fig.patch.set_facecolor('#f5f5f5')  # Set background color
     
-    conn.commit()
-    print(f"🛍️ New Sale Inserted: {transaction}")
+    df_bar = df.groupby("product_category").size().reset_index(name="sales_count")
+    sns.barplot(x="product_category", y="sales_count", data=df_bar, palette="viridis", ax=axes[0])
+    axes[0].set_title("Sales Count by Product Category", backgroundcolor='#f0f0f0')
+    axes[0].tick_params(axis='x', rotation=45)
+    
+    axes[1].pie(df_bar["sales_count"], labels=df_bar["product_category"], autopct='%1.1f%%', colors=sns.color_palette("pastel"))
+    axes[1].set_title("Sales Proportion by Product Category", backgroundcolor='#f0f0f0')
+    
+    df["timestamp"] = pd.to_datetime(df["timestamp"])
+    df_line = df.set_index("timestamp").resample("1T").size()
+    df_line.plot(ax=axes[2], marker='o', linestyle='-')
+    axes[2].set_title("Sales Trend Over Time", backgroundcolor='#f0f0f0')
+    
+    plt.tight_layout()
+    plt.show()
 
-# Continuously generate transactions
 if __name__ == "__main__":
+    ani = FuncAnimation(plt.gcf(), animate, interval=220000)
     while True:
-        generate_and_store_transaction()
-        time.sleep(2)  # Generate a new sale every 2 seconds
+        fetch_live_sales()
+        time.sleep(300)
