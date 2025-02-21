@@ -51,15 +51,45 @@ sudo apt update && sudo apt install openjdk-11-jdk wget
 Download and extract Kafka:
 
 wget https://downloads.apache.org/kafka/3.2.0/kafka_2.13-3.2.0.tgz
+
 tar -xvzf kafka_2.13-3.2.0.tgz
 
-Start Kafka and Zookeeper:
+## As Needed: Activate .venv and Install Packages
 
+Run the following commands to activate our local project virtual environment and install the necessary packages. Wait for each command to finish before running the next command.
+
+## One-time Only: Create it
+
+Use the built-in venv utility to create a local project virtual environment in a folder named .venv.
+
+Windows:
 ```
-cd kafka_2.13-3.2.0
-bin/zookeeper-server-start.sh config/zookeeper.properties &
-bin/kafka-server-start.sh config/server.properties &
+py -3.11 -m venv .venv
 ```
+Mac/Linux:
+```
+python3 -3.11 -m venv .venv
+```
+## Activate and Install Dependencies
+
+Windows:
+```
+.venv\Scripts\activate
+py -m pip install --upgrade pip setuptools wheel
+py -m pip install --upgrade -r requirements.txt
+pip install -r requirements.txt
+```
+Mac/Linux:
+```
+source .venv/bin/activate
+python3 -m pip install --upgrade pip setuptools wheel
+python3 -m pip install --upgrade -r requirements.txt
+```
+Be patient. The process will end and a new .venv folder will appear. This folder will become very large - we don't do anything with it directly, but Python will use this local virtual environment folder to hold a lot of free code that we will use in our project. When done, .venv may be large. Allow time.
+
+Activate Every Time We Open a New Terminal
+
+Remember to always activate the .venv when opening a new terminal.
 
 ## ▶️ Running the Project
 ## Start Kafka Producer:
